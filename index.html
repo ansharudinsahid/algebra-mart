@@ -4,48 +4,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sahid Gacoor</title>
+    <title>Algebra-Mart - Main Menu Update</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="app-container">
-        <h1>Block Blast Solver</h1>
-        <p>1. Klik papan untuk tanda kotak isi. 2. Pilih 3 blok. 3. Klik Cari Solusi.</p>
 
-        <div id="game-board" class="grid-8x8"></div>
+    <div class="game-container">
 
-        <div class="action-bar">
-            <button id="solve-btn" class="btn-primary">Cari Solusi</button>
-            <button id="reset-btn" class="btn-secondary">Reset Papan</button>
-            <button id="replay-btn" class="btn-primary" style="display: none; background-color: #ff9800;">Replay
-                Animasi</button>
-        </div>
-
-        <div class="slots-container">
-            <div class="slot" id="slot-0" onclick="openPicker(0)">
-                <span>Blok 1</span>
-                <div class="preview" id="preview-0"></div>
-            </div>
-            <div class="slot" id="slot-1" onclick="openPicker(1)">
-                <span>Blok 2</span>
-                <div class="preview" id="preview-1"></div>
-            </div>
-            <div class="slot" id="slot-2" onclick="openPicker(2)">
-                <span>Blok 3</span>
-                <div class="preview" id="preview-2"></div>
+        <div id="screen-main" class="screen-view active">
+            <div class="main-menu-bg-placeholder">
+                <div class="menu-content-wrapper">
+                    <h1 class="main-game-title">ALGEBRA-MART</h1>
+                    
+                    <div class="menu-buttons-vertical">
+                        <button class="menu-btn btn-orange" id="btn-start-game">Mulai Game</button>
+                        <button class="menu-btn btn-green" id="btn-activity-log">Log Aktifitas</button>
+                        <button class="menu-btn btn-blue" id="btn-main-settings">Pengaturan</button>
+                        <button class="menu-btn btn-red" id="btn-main-exit">Keluar</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="message"></div>
-    </div>
+        <div id="screen-level" class="screen-view">
+            <div class="level-header">
+                <button class="nav-btn" id="btn-back-to-main">⬅ Kembali</button>
+                <h1 class="level-title">PILIH LEVEL</h1>
+                <button class="nav-btn" id="btn-exit">Lanjutkan</button>
+            </div>
 
-    <div id="picker-modal" class="modal">
-        <div class="modal-content">
-            <h3>Pilih Bentuk Blok</h3>
-            <div id="shape-gallery" class="gallery"></div>
-            <button onclick="closePicker()" class="btn-close">Batal</button>
+            <div class="level-grid" id="level-grid">
+                <div class="level-card" id="level-1">
+                    1
+                    <div class="star-container" id="stars-level-1">☆☆☆</div>
+                </div>
+                </div>
         </div>
+
+        <div id="screen-game" class="screen-view">
+            <button id="btn-back-menu" class="btn-back">⬅ Kembali</button>
+
+            <div class="shop-background">
+                <div class="wooden-shelf">
+                    <div class="shelf-tier top-tier">
+                        <div class="product-column left-column">
+                            <div class="product-item">
+                                <span class="variable-label">x</span>
+                                <img src="image/padamaran.png" alt="Kue Padamaran" class="product-size">
+                            </div>
+                            <div class="product-item">
+                                <span class="variable-label">x</span>
+                                <img src="image/padamaran.png" alt="Kue Padamaran" class="product-size">
+                            </div>
+                        </div>
+
+                        <div class="product-column center-column">
+                            <div class="product-item">
+                                <span class="variable-label">y</span>
+                                <img src="image/gandus.png" alt="Kue Gandus" class="product-size">
+                            </div>
+                            <div class="product-item">
+                                <span class="variable-label">y</span>
+                                <img src="image/gandus.png" alt="Kue Gandus" class="product-size">
+                            </div>
+                        </div>
+
+                        <div class="product-column right-column">
+                            <div class="product-item">
+                                <span class="variable-label">z</span>
+                                <div class="img-placeholder product-size">
+                                    <span>[Dodol Z]</span>
+                                </div>
+                            </div>
+                            <div class="product-item">
+                                <span class="variable-label">z</span>
+                                <div class="img-placeholder product-size">
+                                    <span>[Dodol Z]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hanging-plates">
+                        <div class="wooden-plate-wrapper left-column">
+                            <div class="plate-rope"></div>
+                            <div class="wooden-plate">Kue Padamaran<br><span class="price-tag">(Rp 2.000)</span></div>
+                        </div>
+                        <div class="wooden-plate-wrapper center-column">
+                            <div class="plate-rope"></div>
+                            <div class="wooden-plate">Kue Gandus<br><span class="price-tag">(Rp 1.500)</span></div>
+                        </div>
+                        <div class="wooden-plate-wrapper right-column">
+                            <div class="plate-rope"></div>
+                            <div class="wooden-plate">Dodol Nanas<br><span class="price-tag">(z = Rp 3.000)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="shelf-tier bottom-tier">
+                        <div class="product-column left-column">
+                            <div class="product-item">
+                                <span class="variable-label">x</span>
+                                <img src="image/padamaran.png" alt="Kue Padamaran" class="product-size">
+                            </div>
+                            <div class="product-item">
+                                <span class="variable-label">x</span>
+                                <img src="image/padamaran.png" alt="Kue Padamaran" class="product-size">
+                            </div>
+                        </div>
+
+                        <div class="product-column center-column">
+                            <div class="product-item">
+                                <span class="variable-label">y</span>
+                                <img src="image/gandus.png" alt="Kue Gandus" class="product-size">
+                            </div>
+                            <div class="product-item">
+                                <span class="variable-label">y</span>
+                                <img src="image/gandus.png" alt="Kue Gandus" class="product-size">
+                            </div>
+                        </div>
+
+                        <div class="product-column right-column">
+                            <div class="product-item">
+                                <span class="variable-label">z</span>
+                                <div class="img-placeholder product-size">
+                                    <span>[Dodol Z]</span>
+                                </div>
+                            </div>
+                            <div class="product-item">
+                                <span class="variable-label">z</span>
+                                <div class="img-placeholder product-size">
+                                    <span>[Dodol Z]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="npc-container">
+                    <div class="speech-bubble">
+                        Aku mau beli<br><strong>3 Kue Padamaran</strong> dan <br><strong>2 Kue Gandus</strong>
+                    </div>
+                    <img src="image/anaksmp.png" alt="Pelanggan" class="npc-image">
+                </div>
+            </div>
+
+            <div class="cashier-desk">
+                <div class="cash-register">
+                    <div class="register-display-panel">
+                        <div class="green-indicator-screen">
+                            <div class="screen-row"><span class="screen-label">Harga:</span> <span id="harga-display" class="screen-value"></span></div>
+                            <div class="screen-row"><span class="screen-label">Rumus:</span> <input type="text" id="formula-box" class="kasir-input input-active" readonly></div>
+                            <div class="screen-row"><span class="screen-label">Dibayar:</span> <input type="text" id="paid-box" class="kasir-input" readonly></div>
+                        </div>
+                        <button class="confirm-button" id="btn-final-checkout">✓</button>
+                    </div>
+
+                    <div class="numpad-panel">
+                        <div class="numpad-grid">
+                            <button class="btn-num">7</button>
+                            <button class="btn-num">8</button>
+                            <button class="btn-num">9</button>
+                            <button class="btn-action btn-backspace">⌫</button>
+
+                            <button class="btn-num">4</button>
+                            <button class="btn-num">5</button>
+                            <button class="btn-num">6</button>
+                            <button class="btn-var">x</button>
+
+                            <button class="btn-num">1</button>
+                            <button class="btn-num">2</button>
+                            <button class="btn-num">3</button>
+                            <button class="btn-var">y</button>
+
+                            <button class="btn-num">0</button>
+                            <button class="btn-op">+</button>
+                            <button class="btn-op">-</button>
+                            <button class="btn-var">z</button>
+
+                            <button class="btn-action btn-clear">C</button>
+                            <button class="btn-action btn-calc">=</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="serving-tray">
+                    <div class="tray-title-label">Pesanan</div>
+                    <div class="tray-inner" id="tray-items"></div>
+                </div>
+
+                <div class="customer-wallet">
+                    <div class="wallet-title">Uang Pelanggan</div>
+                    <div class="wallet-money-layout">
+                        <div class="img-placeholder money-5k"><img src="image/5000-Rupiah.jpg" class="money"></div>
+                        <div class="img-placeholder money-5k"><img src="image/5000-Rupiah.jpg" class="money"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="receipt-modal">
+                <div class="final-receipt-card">
+                    <h3>STRUK TRANSAKSI</h3>
+                    <div class="receipt-divider">======================================</div>
+
+                    <div class="receipt-section-title">-- KALKULASI HARGA --</div>
+                    <div class="receipt-row">
+                        <span>Rumus:</span> <span id="struk-rumus"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Proses:</span> <span id="struk-proses"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Rincian:</span> <span id="struk-rincian"></span>
+                    </div>
+                    <div class="receipt-row total-row">
+                        <span>Total Harga:</span> <strong id="struk-total"></strong>
+                    </div>
+
+                    <div class="receipt-divider">--------------------------------------</div>
+
+                    <div class="receipt-section-title">-- PEMBAYARAN --</div>
+                    <div class="receipt-row flex-col">
+                        <div class="flex-row-between">
+                            <span>Tunai Dibayar:</span> <strong id="struk-bayar-total"></strong>
+                        </div>
+                        <span class="small-detail" id="struk-bayar-rincian"></span>
+                    </div>
+
+                    <div class="receipt-divider">--------------------------------------</div>
+
+                    <div class="receipt-section-title">-- KEMBALIAN --</div>
+                    <div class="receipt-row flex-col">
+                        <span class="small-detail">Persamaan: Kembalian = Tunai Dibayar - Total Harga</span>
+                        <span class="small-detail math-step" id="struk-kembalian-hitung"></span>
+                    </div>
+                    <div class="receipt-row change-row">
+                        <span>KEMBALIAN:</span> <strong id="struk-kembalian-final"></strong>
+                    </div>
+
+                    <div class="receipt-divider">======================================</div>
+                    <button id="btn-close-modal">Lanjut Level</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="script.js"></script>

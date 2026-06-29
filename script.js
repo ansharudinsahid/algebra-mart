@@ -1,243 +1,255 @@
-const BOARD_SIZE = 8;
-let board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
-let selectedShapes = [null, null, null];
-let activeSlot = null;
+document.addEventListener("DOMContentLoaded", function () {
 
-// Variabel untuk menyimpan memori Replay
-let lastSolution = null;
-let lastBoardState = null;
-let lastSelectedShapes = null;
+    // =========================================================
+    // 1. SELEKSI ELEMEN UTAMA & VARIABEL GAME
+    // =========================================================
+    const formulaInput = document.getElementById("formula-box");
+    const paidInput = document.getElementById("paid-box");
+    const priceDisplay = document.getElementById("harga-display");
 
-// Daftar Super Lengkap Bentuk (Total 53 Blok)
-const SHAPES = [
-    { m: [[1]] }, { m: [[1,1]] }, { m: [[1],[1]] },
-    { m: [[1,1,1]] }, { m: [[1],[1],[1]] },
-    { m: [[1,1,1,1]] }, { m: [[1],[1],[1],[1]] },
-    { m: [[1,1,1,1,1]] }, { m: [[1],[1],[1],[1],[1]] },
-    { m: [[1,1],[1,1]] }, { m: [[1,1,1],[1,1,1],[1,1,1]] },
-    { m: [[1,1],[1,1],[1,1]] }, { m: [[1,1,1],[1,1,1]] },
-    { m: [[1,0,0],[0,1,0],[0,0,1]] }, { m: [[0,0,1],[0,1,0],[1,0,0]] },
-    { m: [[0,1],[1,0]] }, { m: [[1,0],[0,1]] },
-    { m: [[1,0,0],[0,1,0]] }, { m: [[0,0,1],[0,1,0]] },
-    { m: [[0,1,0],[1,0,0]] }, { m: [[0,1,0],[0,0,1]] },
-    { m: [[0,1,1],[1,1,0]] }, { m: [[1,0],[1,1],[0,1]] },
-    { m: [[1,1,0],[0,1,1]] }, { m: [[0,1],[1,1],[1,0]] },
-    { m: [[1,0,0],[1,1,0],[0,1,1]] }, { m: [[0,0,1],[0,1,1],[1,1,0]] },
-    { m: [[0,1,1],[1,1,0],[1,0,0]] }, { m: [[1,1,0],[0,1,1],[0,0,1]] },
-    { m: [[1,0],[1,1]] }, { m: [[0,1],[1,1]] },
-    { m: [[1,1],[1,0]] }, { m: [[1,1],[0,1]] },
-    { m: [[1,0,0],[1,0,0],[1,1,1]] }, { m: [[0,0,1],[0,0,1],[1,1,1]] },
-    { m: [[1,1,1],[1,0,0],[1,0,0]] }, { m: [[1,1,1],[0,0,1],[0,0,1]] },
-    { m: [[1,0],[1,0],[1,1]] }, { m: [[0,1],[0,1],[1,1]] },
-    { m: [[1,1],[1,0],[1,0]] }, { m: [[1,1],[0,1],[0,1]] },
-    { m: [[1,1,1],[1,0,0]] }, { m: [[1,1,1],[0,0,1]] },
-    { m: [[1,0,0],[1,1,1]] }, { m: [[0,0,1],[1,1,1]] },
-    { m: [[1,1,1],[0,1,0]] }, { m: [[0,1,0],[1,1,1]] },
-    { m: [[1,0],[1,1],[1,0]] }, { m: [[0,1],[1,1],[0,1]] },
-    { m: [[1,1,1],[0,1,0],[0,1,0]] }, { m: [[0,1,0],[0,1,0],[1,1,1]] },
-    { m: [[1,0,0],[1,1,1],[1,0,0]] }, { m: [[0,0,1],[1,1,1],[0,0,1]] }
-];
+    const inputButtons = document.querySelectorAll(".btn-num, .btn-var, .btn-op");
+    const backspaceBtn = document.querySelector(".btn-backspace");
+    const clearBtn = document.querySelector(".btn-clear");
+    const calcBtn = document.querySelector(".btn-calc");
+    const confirmBtn = document.getElementById("btn-final-checkout");
+    const modal = document.getElementById("receipt-modal");
 
-// Inisialisasi Papan
-const boardEl = document.getElementById('game-board');
-for (let r = 0; r < BOARD_SIZE; r++) {
-    for (let c = 0; c < BOARD_SIZE; c++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.onclick = () => {
-            board[r][c] = board[r][c] ? 0 : 1;
-            renderBoard();
-            // Sembunyikan tombol replay jika user mengubah papan secara manual
-            document.getElementById('replay-btn').style.display = 'none'; 
-        };
-        cell.id = `c-${r}-${c}`;
-        boardEl.appendChild(cell);
+    const hargaX = 2000;
+    const hargaY = 1500;
+    let tagihanTervalidasi = 0;
+    let activeInput = formulaInput; // Awal fokus pada kotak input Rumus
+
+    // =========================================================
+    // 2. SISTEM MULTI-LAYAR BARU (3 KONDISI LAYAR)
+    // =========================================================
+    const screenMain = document.getElementById("screen-main");
+    const screenLevel = document.getElementById("screen-level");
+    const screenGame = document.getElementById("screen-game");
+
+    const btnStartGame = document.getElementById("btn-start-game");
+    const btnBackToMain = document.getElementById("btn-back-to-main");
+    const btnBackMenu = document.getElementById("btn-back-menu");
+
+    /**
+     * Fungsi Terpusat untuk Mengatur Visibilitas Layar Aktif
+     * @param {HTMLElement} targetScreen - Elemen div layar tujuan
+     */
+    function switchScreen(targetScreen) {
+        screenMain.classList.remove("active");
+        screenLevel.classList.remove("active");
+        screenGame.classList.remove("active");
+        targetScreen.classList.add("active");
     }
-}
 
-function renderBoard() {
-    for (let r = 0; r < BOARD_SIZE; r++) {
-        for (let c = 0; c < BOARD_SIZE; c++) {
-            const el = document.getElementById(`c-${r}-${c}`);
-            el.className = 'cell' + (board[r][c] === 1 ? ' active' : '');
-        }
-    }
-}
-
-function openPicker(slot) {
-    activeSlot = slot;
-    const gallery = document.getElementById('shape-gallery');
-    gallery.innerHTML = '';
-    SHAPES.forEach((s) => {
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.innerHTML = drawMini(s.m);
-        item.onclick = () => {
-            selectedShapes[activeSlot] = s;
-            document.getElementById(`preview-${activeSlot}`).innerHTML = drawMini(s.m);
-            closePicker();
-            document.getElementById('replay-btn').style.display = 'none';
-        };
-        gallery.appendChild(item);
+    // Navigasi Beranda Utama -> Pilih Level
+    btnStartGame.addEventListener("click", () => {
+        switchScreen(screenLevel);
     });
-    document.getElementById('picker-modal').style.display = 'flex';
-}
 
-function closePicker() { document.getElementById('picker-modal').style.display = 'none'; }
+    // Navigasi Pilih Level -> Kembali ke Beranda Utama
+    btnBackToMain.addEventListener("click", () => {
+        switchScreen(screenMain);
+    });
 
-function drawMini(m) {
-    let html = `<div class="mini-grid" style="grid-template-columns: repeat(${m[0].length}, 1fr)">`;
-    m.forEach(row => row.forEach(v => {
-        html += `<div class="m-cell ${v ? 'on' : ''}"></div>`;
-    }));
-    return html + '</div>';
-}
+    // Navigasi Gameplay Kasir -> Kembali ke Pilih Level
+    btnBackMenu.addEventListener("click", () => {
+        switchScreen(screenLevel);
+    });
 
-// Algoritma Solver & Animasi
-document.getElementById('solve-btn').onclick = () => {
-    if (selectedShapes.includes(null)) return alert("Pilih 3 blok!");
-    document.getElementById('message').innerText = "Sedang menganalisa jutaan kemungkinan...";
-    document.getElementById('replay-btn').style.display = 'none';
-    
-    setTimeout(async () => {
-        const solution = startSolving(board, selectedShapes);
-        if (solution) {
-            // Simpan memori untuk keperluan replay
-            lastBoardState = board.map(row => [...row]);
-            lastSelectedShapes = [...selectedShapes];
-            lastSolution = solution;
+    // =========================================================
+    // 3. GENERASI DINAIMS 18 TOMBOL GRID LEVEL
+    // =========================================================
+    const levelGrid = document.getElementById("level-grid");
+
+    // Membuat tombol level 2 sampai 18 secara loop otomatis agar kode HTML bersih
+    for (let i = 2; i <= 18; i++) {
+        const levelBtn = document.createElement("div");
+        levelBtn.className = "level-card locked";
+        levelBtn.id = `level-${i}`;
+        levelBtn.innerHTML = `
+            ${i}
+            <span class="lock-icon">🔒</span>
+        `;
+        levelGrid.appendChild(levelBtn);
+    }
+
+    // Masuk ke Game saat mengklik Level 1
+    document.getElementById("level-1").addEventListener("click", () => {
+        switchScreen(screenGame);
+    });
+
+    // =========================================================
+    // 4. LOGIKA INPUT INTERAKTIF (KEYPAD KASIR)
+    // =========================================================
+    function setFocus(inputElement) {
+        activeInput = inputElement;
+        formulaInput.classList.remove("input-active");
+        paidInput.classList.remove("input-active");
+        inputElement.classList.add("input-active");
+    }
+
+    formulaInput.addEventListener("click", () => setFocus(formulaInput));
+    paidInput.addEventListener("click", () => setFocus(paidInput));
+
+    inputButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            activeInput.value += btn.textContent;
+            activeInput.style.color = "#1a1a1a";
+        });
+    });
+
+    backspaceBtn.addEventListener("click", () => {
+        activeInput.value = activeInput.value.slice(0, -1);
+    });
+
+    clearBtn.addEventListener("click", () => {
+        activeInput.value = "";
+        if (activeInput === formulaInput) {
+            priceDisplay.textContent = "";
+            tagihanTervalidasi = 0;
+            document.getElementById("tray-items").innerHTML = "";
+        }
+    });
+
+    // =========================================================
+    // 5. VALIDASI SUBSTITUSI ALJABAR (TOMBOL = )
+    // =========================================================
+    calcBtn.addEventListener("click", () => {
+        if (activeInput === formulaInput) {
+            let rumusBersih = formulaInput.value.replace(/\s+/g, '').toLowerCase();
+
+            if (rumusBersih === "3x+2y") {
+                tagihanTervalidasi = (3 * hargaX) + (2 * hargaY); // Hasil: 9000
+                priceDisplay.textContent = "Rp " + tagihanTervalidasi.toLocaleString('id-ID');
+                priceDisplay.style.color = "#a5d6a7";
+                munculkanKueDiNampan();
+            } else {
+                priceDisplay.textContent = "Rumus Salah!";
+                priceDisplay.style.color = "#ef9a9a";
+                tagihanTervalidasi = 0;
+                document.getElementById("tray-items").innerHTML = "";
+            }
+        }
+    });
+
+    // =========================================================
+    // 6. PENYELESAIAN TRANSAKSI & VALIDASI STRUK (TOMBOL CHECKOUT)
+    // =========================================================
+    confirmBtn.addEventListener("click", () => {
+        if (tagihanTervalidasi === 0) {
+            alert("Harap ketik rumus '3x+2y' dan tekan '=' terlebih dahulu!");
+            return;
+        }
+
+        let uangDibayar = parseInt(paidInput.value.replace(/[^0-9]/g, ''));
+        const maksimalDompet = 10000;
+
+        if (isNaN(uangDibayar) || uangDibayar < tagihanTervalidasi) {
+            paidInput.value = "Kurang!";
+            paidInput.style.color = "red";
+            return;
+        }
+
+        if (uangDibayar > maksimalDompet) {
+            alert("Uang tidak logis! Maksimal dompet pelanggan adalah Rp 10.000");
+            paidInput.value = "Tdk Logis!";
+            paidInput.style.color = "red";
+            return;
+        }
+
+        let kembalian = uangDibayar - tagihanTervalidasi;
+
+        // Render data edukatif ke dalam Modal Struk
+        document.getElementById("struk-rumus").textContent = "3x + 2y";
+        document.getElementById("struk-proses").textContent = `3(Rp ${hargaX.toLocaleString('id-ID')}) + 2(Rp ${hargaY.toLocaleString('id-ID')})`;
+        document.getElementById("struk-rincian").textContent = `Rp ${(3 * hargaX).toLocaleString('id-ID')} + Rp ${(2 * hargaY).toLocaleString('id-ID')}`;
+        document.getElementById("struk-total").textContent = "Rp " + tagihanTervalidasi.toLocaleString('id-ID');
+        document.getElementById("struk-bayar-total").textContent = "Rp " + uangDibayar.toLocaleString('id-ID');
+        document.getElementById("struk-bayar-rincian").textContent = tentukanPecahanUang(uangDibayar);
+        document.getElementById("struk-kembalian-hitung").textContent = `Kembalian: Rp ${uangDibayar.toLocaleString('id-ID')} - Rp ${tagihanTervalidasi.toLocaleString('id-ID')} = Rp ${kembalian.toLocaleString('id-ID')}`;
+        document.getElementById("struk-kembalian-final").textContent = "Rp " + kembalian.toLocaleString('id-ID');
+
+        modal.style.display = "flex";
+    });
+
+    // =========================================================
+    // 7. RESET PAPAN GAME, SIMPAN PROGRESS & UNLOCK LEVEL BARU
+    // =========================================================
+    document.getElementById("btn-close-modal").addEventListener("click", () => {
+        // A. Reset Form Gameplay
+        modal.style.display = "none";
+        formulaInput.value = "";
+        paidInput.value = "";
+        priceDisplay.textContent = "";
+        tagihanTervalidasi = 0;
+        document.getElementById("tray-items").innerHTML = "";
+        setFocus(formulaInput);
+
+        // B. Efek Gamifikasi: Berikan 3 Bintang Kuning Aktif pada Level 1
+        const starsLevel1 = document.getElementById("stars-level-1");
+        starsLevel1.innerHTML = "★★★";
+        starsLevel1.classList.add("active");
+
+        // C. Efek Gamifikasi: Membuka Gembok Level 2 Secara Otomatis
+        const level2 = document.getElementById("level-2");
+        if (level2 && level2.classList.contains("locked")) {
+            level2.classList.remove("locked");
             
-            await playAnimation(solution);
-            document.getElementById('replay-btn').style.display = 'inline-block';
-        } else {
-            document.getElementById('message').innerText = "💀 GAME OVER MUTLAK: Tidak ada kombinasi yang muat!";
+            const lockIcon = level2.querySelector(".lock-icon");
+            if (lockIcon) lockIcon.remove();
+
+            level2.innerHTML += `<div class="star-container" id="stars-level-2">☆☆☆</div>`;
+
+            // Membuat Level 2 dapat diakses
+            level2.addEventListener("click", () => {
+                switchScreen(screenGame);
+            });
         }
-    }, 50);
-};
 
-// Fungsi Tombol Replay
-document.getElementById('replay-btn').onclick = async () => {
-    if (!lastSolution || !lastBoardState || !lastSelectedShapes) return;
-    
-    // 1. Kembalikan kondisi papan ke awal sebelum dipecahkan
-    board = lastBoardState.map(row => [...row]);
-    renderBoard();
-    
-    // 2. Kembalikan gambar preview blok di bawah
-    selectedShapes = [...lastSelectedShapes];
-    for(let i = 0; i < 3; i++) {
-        document.getElementById(`preview-${i}`).innerHTML = drawMini(selectedShapes[i].m);
-    }
-    
-    // 3. Putar ulang animasinya
-    await playAnimation(lastSolution);
-};
+        // D. Mengembalikan Siswa Kembali ke Layar Pemilihan Level setelah Sukses
+        switchScreen(screenLevel);
+    });
 
-function startSolving(currentBoard, shapes) {
-    const orders = [[0,1,2], [0,2,1], [1,0,2], [1,2,0], [2,0,1], [2,1,0]];
-    for (let order of orders) {
-        let res = [];
-        if (backtrack(currentBoard.map(row => [...row]), order, 0, res)) return res;
-    }
-    return null;
-}
+    // =========================================================
+    // 8. FUNGSI HELPER (PECAHAN UANG & GENERASI VISUAL KUE)
+    // =========================================================
+    function tentukanPecahanUang(amount) {
+        const daftarPecahan = [10000, 5000, 2000, 1000];
+        let sisaUang = amount;
+        let hasilTeks = [];
 
-function backtrack(b, order, stepIdx, res) {
-    if (stepIdx === 3) return true; 
-    const shape = selectedShapes[order[stepIdx]].m;
-    
-    for (let r = 0; r <= BOARD_SIZE - shape.length; r++) {
-        for (let c = 0; c <= BOARD_SIZE - shape[0].length; c++) {
-            if (canFit(b, shape, r, c)) {
-                let nextB = b.map(row => [...row]); 
-                place(nextB, shape, r, c); 
-                clearLines(nextB); 
-                
-                res.push({ r, c, shape, id: order[stepIdx] });
-                
-                if (backtrack(nextB, order, stepIdx + 1, res)) return true;
-                res.pop(); 
+        for (let pecahan of daftarPecahan) {
+            if (sisaUang >= pecahan) {
+                let jumlahLembar = Math.floor(sisaUang / pecahan);
+                sisaUang = sisaUang % pecahan;
+                hasilTeks.push(`${jumlahLembar} Lembar Rp ${pecahan.toLocaleString('id-ID')}`);
             }
         }
+        return "(" + hasilTeks.join(" + ") + ")";
     }
-    return false;
-}
 
-function canFit(b, m, sr, sc) {
-    for (let r = 0; r < m.length; r++)
-        for (let c = 0; c < m[0].length; c++)
-            if (m[r][c] && b[sr + r][sc + c]) return false;
-    return true;
-}
+    function munculkanKueDiNampan() {
+        const tray = document.getElementById("tray-items");
+        tray.innerHTML = ""; // Cegah bug tumpukan ganda data
 
-function place(b, m, sr, sc) {
-    for (let r = 0; r < m.length; r++)
-        for (let c = 0; c < m[0].length; c++)
-            if (m[r][c]) b[sr + r][sc + c] = 1;
-}
-
-function clearLines(b) {
-    let rows = [], cols = [];
-    for (let i = 0; i < 8; i++) {
-        if (b[i].every(v => v === 1)) rows.push(i);
-        if (b.every(row => row[i] === 1)) cols.push(i);
-    }
-    rows.forEach(r => b[r].fill(0));
-    cols.forEach(c => b.forEach(row => row[c] = 0));
-    return rows.length > 0 || cols.length > 0;
-}
-
-async function playAnimation(sol) {
-    document.getElementById('solve-btn').disabled = true;
-    document.getElementById('replay-btn').disabled = true;
-    let tempBoard = board.map(row => [...row]);
-
-    for (let i = 0; i < sol.length; i++) {
-        const step = sol[i];
-        document.getElementById('message').innerText = `Meletakkan Blok ke-${i+1}...`;
-
-        place(tempBoard, step.shape, step.r, step.c);
-
-        for (let r = 0; r < BOARD_SIZE; r++) {
-            for (let c = 0; c < BOARD_SIZE; c++) {
-                const el = document.getElementById(`c-${r}-${c}`);
-                el.className = 'cell' + (tempBoard[r][c] ? ' active' : '');
-            }
+        // Generate 3 visual Kue Padamaran (x)
+        for (let i = 0; i < 3; i++) {
+            tray.innerHTML += `
+                <div class="tray-product">
+                    <span class="tray-label">x</span>
+                    <img src="image/padamaran.png" class="product-size" alt="Kue Padamaran">
+                </div>
+            `;
         }
-        
-        step.shape.forEach((row, dr) => row.forEach((v, dc) => {
-            if (v) document.getElementById(`c-${step.r+dr}-${step.c+dc}`).classList.add('s'+step.id);
-        }));
 
-        await new Promise(res => setTimeout(res, 1000)); 
-
-        let adaYangHancur = clearLines(tempBoard);
-        if (adaYangHancur) {
-            document.getElementById('message').innerText = "BOOM! Baris/Kolom hancur!";
-            for (let r = 0; r < BOARD_SIZE; r++) {
-                for (let c = 0; c < BOARD_SIZE; c++) {
-                    const el = document.getElementById(`c-${r}-${c}`);
-                    el.className = 'cell' + (tempBoard[r][c] ? ' active' : '');
-                }
-            }
-            await new Promise(res => setTimeout(res, 800)); 
+        // Generate 2 visual Kue Gandus (y)
+        for (let i = 0; i < 2; i++) {
+            tray.innerHTML += `
+                <div class="tray-product">
+                    <span class="tray-label">y</span>
+                    <img src="image/gandus.png" class="product-size" alt="Kue Gandus">
+                </div>
+            `;
         }
     }
-
-    document.getElementById('message').innerText = "Selesai! Papan siap untuk putaran berikutnya.";
-    document.getElementById('solve-btn').disabled = false;
-    document.getElementById('replay-btn').disabled = false;
-    
-    board = tempBoard; 
-    selectedShapes = [null, null, null];
-    for(let i=0; i<3; i++) document.getElementById(`preview-${i}`).innerHTML = '';
-}
-
-document.getElementById('reset-btn').onclick = () => {
-    board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
-    selectedShapes = [null, null, null];
-    for(let i=0; i<3; i++) document.getElementById(`preview-${i}`).innerHTML = '';
-    renderBoard();
-    document.getElementById('message').innerText = "";
-    document.getElementById('replay-btn').style.display = 'none';
-};
+});
