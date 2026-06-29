@@ -1,0 +1,1306 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    background-color: #1a1a1a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* KONTENER RASIO LAYAR UTAMA 16:9 FIXED */
+.game-container {
+    width: 100vw;
+    max-width: 1280px;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    background-color: #f5f5f5;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   SISTEM VISUAL PLACEHOLDER GAMBAR YANG PROPORSIONAL & FLEKSIBEL
+   ========================================================================== */
+.img-placeholder {
+    background-color: #e0e0e0;
+    border: 2px dashed #757575;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #424242;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.img-placeholder:hover {
+    background-color: #d6d6d6;
+    /* Penanda visual saat melakukan testing layout */
+}
+
+/* Pengunci Ukuran Proporsional Masing-Masing Aset Gambar */
+.product-size {
+    width: 70px;
+    height: 66px;
+    font-size: 0.6rem;
+}
+
+.npc-avatar-placeholder {
+    width: 85%;
+    height: 70%;
+    font-size: 0.8rem;
+    background-color: #bbdefb;
+    /* Hint biru agar bernuansa warna seragam */
+    border-color: #1e88e5;
+    color: #1565c0;
+}
+
+.basket-item-size {
+    width: 22px;
+    height: 28px;
+    font-size: 0.55rem;
+}
+
+.banknote-20k-placeholder {
+    width: 110px;
+    height: 55px;
+    background-color: #c8e6c9;
+    /* Hint hijau agar bernuansa uang Rp 20.000 emisi terbaru */
+    border-color: #4caf50;
+    color: #2e7d32;
+    font-size: 0.65rem;
+    transform: rotate(-8deg);
+    /* Kemiringan estetik di atas meja */
+    box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   AREA LATAR BELAKANG TOKO (55% TINGGI LAYAR)
+   ========================================================================== */
+.shop-background {
+    height: 55%;
+    width: 100%;
+    background: linear-gradient(to bottom, #d7ccc8, #e0f2f1);
+    position: relative;
+    border-bottom: 8px solid #3e2723;
+    padding: 10px;
+}
+
+.wooden-shelf {
+    width: 96%;
+    height: 90%;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.shelf-tier {
+    width: 100%;
+    height: 38%;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 12px solid #5d4037;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding-bottom: 2px;
+}
+
+.product-column {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-end;
+    width: 25%;
+    height: 100%;
+}
+
+.product-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.variable-label {
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 1px 5px;
+    border-radius: 3px;
+    position: absolute;
+    top: -16px;
+    z-index: 10;
+}
+
+/* Komponen Papan Nama Kayu Gantung */
+.hanging-plates {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 38%;
+    z-index: 5;
+}
+
+.wooden-plate-wrapper {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.plate-rope {
+    width: 16px;
+    height: 8px;
+    border-left: 2px solid #5d4037;
+    border-right: 2px solid #5d4037;
+}
+
+.wooden-plate {
+    background: #8d6e63;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid #4e342e;
+    text-align: center;
+    width: 75%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Wadah NPC di Sisi Kanan */
+.npc-image {
+    width: 150px;
+    height: 500px;
+}
+
+.npc-container {
+    position: absolute;
+    right: 10px;
+    bottom: -8px;
+    width: 25%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 12;
+}
+
+.speech-bubble {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 6px;
+    line-height: 1.3;
+    position: relative;
+    border: 2px solid #2c3e50;
+    width: 95%;
+    text-align: center;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #ffffff transparent;
+}
+
+/* ==========================================================================
+   AREA MEJA KASIR INTERAKTIF (45% TINGGI LAYAR)
+   ========================================================================== */
+.cashier-desk {
+    height: 45%;
+    width: 100%;
+    background: linear-gradient(to bottom, #5d4037, #3e2723);
+    position: relative;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* KOMPONEN BARU: STRUK BELANJA PUTIH VERTIKAL */
+/* KOMPONEN STRUK BELANJA PUTIH VERTIKAL YANG DETAIL */
+.shopping-receipt {
+    width: 32%;
+    /* Sedikit dilebarkan agar teks muat */
+    height: 98%;
+    background-color: #ffffff;
+    color: #212121;
+    border-radius: 2px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    /* Gaya teks struk kasir ritel */
+}
+
+/* Header Struk (Nama Toko & Alamat) */
+.receipt-header {
+    text-align: center;
+    line-height: 1.1;
+}
+
+.receipt-header h2 {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.receipt-header p {
+    font-size: 0.6rem;
+    color: #424242;
+}
+
+/* Garis Pembatas Struk */
+.receipt-divider {
+    font-size: 0.75rem;
+    color: #616161;
+    margin: 3px 0;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Teks Persamaan Aljabar Utama */
+.shopping-receipt .algebra-equation {
+    color: #000000;
+    font-size: 1.05rem;
+    font-weight: bold;
+    margin: 2px 0;
+}
+
+/* Penjabaran Daftar Barang */
+.receipt-items {
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.item-qty {
+    width: 25%;
+    text-align: center;
+}
+
+.item-name {
+    width: 75%;
+    text-align: left;
+}
+
+/* Modifikasi Tinggi Keranjang agar muat di dalam struk baru */
+.shopping-receipt .shopping-basket {
+    width: 90%;
+    height: 48px;
+    /* Tinggi disesuaikan */
+    background: rgba(0, 0, 0, 0.02);
+    border: 1.5px dashed #9e9e9e;
+    border-radius: 6px;
+    position: relative;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.basket-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* Warna Miniatur Barang di Keranjang */
+.mini-padamaran {
+    background-color: #a5d6a7;
+    border-color: #81c784;
+}
+
+.mini-gandus {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+}
+
+.mini-label {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #424242;
+}
+
+/* Area Petunjuk Edukatif (Hint) di Bawah Struk */
+.receipt-hint {
+    width: 98%;
+    background-color: #fffde7;
+    /* Warna latar kuning pucat khas area 'Perhatian' */
+    border: 1px dashed #fbc02d;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 0.65rem;
+    text-align: center;
+    color: #4e342e;
+    margin-top: auto;
+    /* Mendorong petunjuk ke arah bawah */
+    line-height: 1.3;
+}
+
+.receipt-hint strong {
+    color: #d84315;
+    font-size: 0.7rem;
+}
+
+/* Footer Struk */
+.receipt-footer {
+    font-size: 0.65rem;
+    font-weight: bold;
+    color: #757575;
+}
+
+.receipt-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.receipt-divider {
+    font-size: 0.75rem;
+    color: #616161;
+    margin: 2px 0;
+}
+
+.shopping-receipt .algebra-equation {
+    color: #000000;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 4px 0;
+}
+
+/* Keranjang Belanja di Dalam Struk */
+.shopping-receipt .shopping-basket {
+    width: 100%;
+    height: 45%;
+    background: rgba(0, 0, 0, 0.02);
+    border: 1.5px dashed #9e9e9e;
+    border-radius: 6px;
+    position: relative;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
+.basket-handle {
+    position: absolute;
+    top: -10px;
+    left: 15%;
+    width: 70%;
+    height: 12px;
+    border: 2px solid #9e9e9e;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+}
+
+.basket-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.mini-padamaran {
+    background-color: #a5d6a7;
+    border-color: #81c784;
+}
+
+.mini-gandus {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+}
+
+.mini-label {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #424242;
+}
+
+.receipt-footer {
+    font-size: 0.65rem;
+    font-weight: bold;
+    color: #757575;
+    margin-top: auto;
+}
+
+/* MESIN KASIR DIGITAL DIGITAL (DIGESER KE TENGAH) */
+/* MESIN KASIR DIGITAL DIGITAL (DIGESER KE KIRI) */
+.cash-register {
+    width: 45%;
+    /* Diubah agar tersisa ruang di tengah */
+    height: 98%;
+    background-color: #ffeb3b;
+    border: 5px solid #fbc02d;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.register-display-panel {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Layar Hijau Indikator Kasir */
+.green-indicator-screen {
+    background-color: #1b5e20;
+    border: 3px solid #0d47a1;
+    border-radius: 6px;
+    height: 74%;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+.screen-row {
+    color: #ffffff;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.screen-label {
+    font-weight: bold;
+    color: #c8e6c9;
+}
+
+.formula-box {
+    width: 55%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 3px;
+    padding: 2px;
+    color: #1a1a1a;
+}
+
+.confirm-button {
+    background-color: #4caf50;
+    border: none;
+    border-bottom: 4px solid #1b5e20;
+    border-radius: 6px;
+    color: white;
+    font-size: 1.3rem;
+    height: 22%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirm-button:active {
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+}
+
+/* Panel Papan Tombol (Numpad) */
+.numpad-panel {
+    width: 52%;
+    background-color: #e65100;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+.numpad-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    height: 100%;
+}
+
+.numpad-grid button {
+    background-color: #fff59d;
+    border: none;
+    border-bottom: 3px solid #fbc02d;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #3e2723;
+    cursor: pointer;
+}
+
+.numpad-grid button:active {
+    transform: translateY(1px);
+    border-bottom-width: 1px;
+}
+
+.numpad-grid .btn-var {
+    background-color: #ffe082;
+    border-bottom-color: #ffa000;
+    font-family: serif;
+    font-style: italic;
+}
+
+.numpad-grid .btn-op {
+    background-color: #b3e5fc;
+    border-bottom-color: #0288d1;
+}
+
+.numpad-grid .btn-clear {
+    background-color: #ef9a9a;
+    border-bottom-color: #e53935;
+    color: #ffffff;
+}
+
+/* REVISI ELEMEN BARU: AREA KANAN MEJA (DI DEPAN PELANGGAN) */
+.customer-cash-area {
+    width: 18%;
+    height: 98%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* GAYA FOKUS INPUT KASIR */
+.kasir-input {
+    width: 60%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: right;
+    /* Angka rata kanan seperti kasir asli */
+    border: 2px solid transparent;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Indikator visual saat kotak input dipilih */
+.input-active {
+    background-color: #ffffff;
+    border: 2px solid #ffeb3b;
+    box-shadow: 0 0 6px rgba(255, 235, 59, 0.8);
+}
+
+/* REVISI NUMPAD GRID MENJADI 5 BARIS */
+.numpad-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4px;
+    height: 100%;
+}
+
+.btn-action {
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+}
+
+.btn-backspace {
+    background-color: #ffb74d;
+    border-bottom: 3px solid #f57c00;
+    color: #fff;
+}
+
+.btn-calc {
+    background-color: #4fc3f7;
+    border-bottom: 3px solid #0288d1;
+    color: #fff;
+    grid-column: span 3;
+    font-size: 1.5rem;
+}
+
+.btn-clear {
+    grid-column: span 1;
+}
+
+/* DOMPET PELANGGAN */
+.customer-wallet {
+    width: 20%;
+    height: 98%;
+    background-color: #3e2723;
+    border: 2px dashed #8d6e63;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wallet-title {
+    color: #d7ccc8;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #795548;
+    padding-bottom: 4px;
+}
+
+/* DOMPET PELANGGAN */
+.customer-wallet {
+    width: 20%;
+    height: 98%;
+    background-color: #3e2723;
+    border: 2px dashed #8d6e63;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wallet-title {
+    color: #d7ccc8;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #795548;
+    padding-bottom: 4px;
+}
+
+/* KELAS BARU: Untuk menata susunan lembaran uang secara vertikal */
+.wallet-money-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    /* Jarak antar lembaran uang */
+    margin-top: 15px;
+}
+
+.money {
+    width: 200px;
+    height: 60px;
+}
+
+.money-5k {
+    width: 70px;
+    height: 35px;
+    background-color: #d7ccc8;
+    border-color: #795548;
+    color: #4e342e;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-size: 0.5rem;
+}
+
+.money-20k {
+    width: 70px;
+    height: 35px;
+    background-color: #c8e6c9;
+    border-color: #388e3c;
+    color: #1b5e20;
+    transform: none;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-size: 0.5rem;
+}
+
+.money-5k {
+    width: 70px;
+    height: 35px;
+    background-color: #d7ccc8;
+    border-color: #795548;
+    color: #4e342e;
+    transform: none;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-size: 0.5rem;
+}
+
+.money-2k {
+    width: 70px;
+    height: 35px;
+    background-color: #cfd8dc;
+    border-color: #78909c;
+    color: #37474f;
+    transform: none;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-size: 0.5rem;
+}
+
+/* MODAL STRUK (POP-UP) REVISI EDUKATIF */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 100;
+    display: none;
+    /* Awalnya disembunyikan */
+    justify-content: center;
+    align-items: center;
+}
+
+.final-receipt-card {
+    background-color: #ffffff;
+    width: 400px;
+    /* Diperlebar agar teks edukasi muat */
+    border-radius: 4px;
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #212121;
+}
+
+.final-receipt-card h3 {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.receipt-divider {
+    font-size: 0.8rem;
+    color: #616161;
+    text-align: center;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Sub-judul setiap bagian struk */
+.receipt-section-title {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 6px 0 2px 0;
+}
+
+/* Pengaturan baris teks */
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row-between {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.total-row {
+    font-size: 0.95rem;
+    margin-top: 4px;
+    border-top: 1px dashed #bdbdbd;
+    padding-top: 4px;
+}
+
+.small-detail {
+    font-size: 0.72rem;
+    color: #616161;
+    margin-top: 2px;
+    line-height: 1.4;
+}
+
+.math-step {
+    color: #1565c0;
+    font-weight: bold;
+}
+
+/* Warna biru untuk proses hitung kembalian */
+
+.change-row {
+    font-size: 1.2rem;
+    color: #2e7d32;
+    font-weight: bold;
+    margin-top: 6px;
+    border-top: 1px dashed #bdbdbd;
+    padding-top: 6px;
+}
+
+#btn-close-modal {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#btn-close-modal:hover {
+    background-color: #388e3c;
+}
+
+/* =========================================================
+   GAYA NAMPAN PESANAN & ITEM KUE DINAMIS
+   ========================================================= */
+.serving-tray {
+    width: 32%;
+    /* Mengambil sisa ruang di sisi kiri meja */
+    height: 98%;
+    background-color: #eceff1;
+    /* Warna perak/abu-abu khas nampan */
+    border: 3px solid #b0bec5;
+    border-radius: 8px;
+    box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+}
+
+.tray-title-label {
+    font-size: 0.8rem;
+    color: #78909c;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px dashed #b0bec5;
+    width: 90%;
+    padding-bottom: 4px;
+    margin-bottom: auto;
+    /* Mendorong isi nampan ke bawah */
+}
+
+.tray-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    margin-bottom: 15px;
+    /* Jarak dari batas bawah nampan */
+}
+
+/* Kotak Produk Dinamis di Atas Nampan */
+.tray-product {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popIn 0.3s ease-out;
+    /* Animasi memantul halus saat muncul */
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.tray-label {
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 1px 5px;
+    border-radius: 3px;
+    position: absolute;
+    top: -12px;
+    z-index: 10;
+}
+
+/* Gaya Konsisten untuk Kotak Produk CSS */
+.tray-box {
+    width: 32px;
+    height: 42px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.5rem;
+    font-weight: bold;
+    border: 2px dashed #757575;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* Identitas Variabel: Padamaran Hijau (x) & Gandus Putih (y) */
+.box-green {
+    background-color: #a5d6a7;
+    border-color: #4caf50;
+    color: #1b5e20;
+}
+
+.box-white {
+    background-color: #f5f5f5;
+    border-color: #9e9e9e;
+    color: #424242;
+}
+
+/* =========================================================
+   GAYA NAMPAN PESANAN (DI TENGAH)
+   ========================================================= */
+.serving-tray {
+    width: 30%;
+    /* Mengambil ruang tengah */
+    height: 90%;
+    background-color: #eceff1;
+    border: 3px solid #b0bec5;
+    border-radius: 8px;
+    box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+}
+
+.tray-title-label {
+    font-size: 0.8rem;
+    color: #78909c;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px dashed #b0bec5;
+    width: 90%;
+    padding-bottom: 4px;
+    margin-bottom: auto;
+}
+
+.tray-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.tray-product {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popIn 0.3s ease-out;
+    /* Animasi memantul */
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.tray-label {
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 1px 5px;
+    border-radius: 3px;
+    position: absolute;
+    top: -12px;
+    z-index: 10;
+}
+
+/* Mengatur gambar asli kue yang muncul di nampan */
+.tray-img {
+    width: 48px;
+    height: auto;
+    filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
+    /* Efek bayangan realistis */
+}
+
+/* =========================================================
+   SISTEM MULTI-LAYAR & NAVIGASI
+   ========================================================= */
+.screen-view {
+    display: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    position: relative;
+}
+
+.screen-view.active {
+    display: flex;
+}
+
+/* Tombol Kembali di Layar Kasir */
+.btn-back {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 50;
+    background-color: #ef5350;
+    color: white;
+    border: 2px solid #b71c1c;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 0 #b71c1c;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-back:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+/* =========================================================
+   TAMPILAN LAYAR PILIH LEVEL
+   ========================================================= */
+#screen-level {
+    background-image: url('image/background.png');
+    padding: 20px 40px;
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.level-title {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 2px;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid #90caf9;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Konfigurasi Grid 18 Level (6 Kolom x 3 Baris) */
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    flex-grow: 1;
+    align-content: center;
+    padding: 0 20px;
+}
+
+.level-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #1a1a1a;
+    font-size: 2.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 8px 0 #bdbdbd;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* Efek saat tombol level aktif ditekan */
+.level-card:active:not(.locked) {
+    transform: translateY(8px);
+    box-shadow: 0 0 0 #bdbdbd;
+}
+
+/* Status Terkunci (Gembok) */
+.level-card.locked {
+    background-color: #b0bec5;
+    color: #78909c;
+    cursor: not-allowed;
+    box-shadow: 0 8px 0 #90a4ae;
+}
+
+.lock-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 1.5rem;
+    color: #ffca28;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+}
+
+/* Status Bintang (Progress) */
+.star-container {
+    font-size: 1.2rem;
+    color: #e0e0e0; /* Warna abu-abu (belum selesai) */
+    margin-top: 5px;
+    letter-spacing: 3px;
+}
+
+/* Kelas saat level berhasil diselesaikan */
+.star-container.active {
+    color: #ffca28; /* Warna kuning bersinar */
+    text-shadow: 0 0 8px #ffb300, 0 0 15px #ffc107;
+}
+
+/* =========================================================
+   GAYA INTERMUKA BERANDA UTAMA (MAIN MENU)
+   ========================================================= */
+#screen-main {
+    background-color: #2c3e50; /* Fallback warna jika gambar gagal dimuat */
+    width: 100%;
+    height: 100%;
+}
+
+/* Penampung latar belakang fleksibel - Mudah disisipkan properti background-image kapan saja */
+.main-menu-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background-image: url('image/background.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 80%;
+    width: 100%;
+    padding: 30px 0;
+}
+
+/* Desain Judul Utama Pop-Out */
+.main-game-title {
+    color: #ffeb3b;
+    font-size: 3.8rem;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-shadow: 4px 4px 0px #e65100, 8px 8px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+}
+
+/* Kontainer Tombol Menu Vertikal */
+.menu-buttons-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.menu-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
+}
+
+.menu-btn:hover {
+    filter: brightness(1.1);
+}
+
+.menu-btn:active {
+    transform: translateY(4px);
+    box-shadow: none !important;
+}
+
+/* Pewarnaan Spesifik 4 Tombol Utama */
+.btn-orange {
+    background-color: #ff9800;
+    box-shadow: 0 5px 0 #e65100;
+}
+
+.btn-green {
+    background-color: #4caf50;
+    box-shadow: 0 5px 0 #1b5e20;
+}
+
+.btn-blue {
+    background-color: #2196f3;
+    box-shadow: 0 5px 0 #0d47a1;
+}
+
+.btn-red {
+    background-color: #f44336;
+    box-shadow: 0 5px 0 #b71c1c;
+}
